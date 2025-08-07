@@ -2,10 +2,11 @@ import { formatDistanceToNow } from '../node_modules/date-fns/formatDistanceToNo
 import { ru } from '../node_modules/date-fns/locale/ru.js';
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage } from "../index.js";
+import { goToPage } from "../index.js";
+import { initLikeHandlers, renderLikeButton } from './like-handler-component.js';
 
-export function renderPostsPageComponent({ appEl, posts }) {
-  // console.log("Актуальный список постов:", posts);
+
+export function renderPostsPageComponent({ appEl, posts, user }) {
 
   // верстка одного поста (применяется для всех из списка posts)
   const postsHtml = posts.map(post => `
@@ -18,9 +19,7 @@ export function renderPostsPageComponent({ appEl, posts }) {
         <img class="post-image" src="${post.imageUrl}">
       </div>
       <div class="post-likes">
-        <button data-post-id="${post.id}" class="like-button">
-          <img src="${post.isLiked ? './assets/images/like-active.svg' : './assets/images/like-not-active.svg'}">
-        </button>
+        ${renderLikeButton(post, user)}
         <p class="post-likes-text">
           Нравится: <strong>${post.likes.length}</strong>
         </p>
@@ -50,6 +49,10 @@ export function renderPostsPageComponent({ appEl, posts }) {
   renderHeaderComponent({
     element: document.querySelector(".header-container"),
   });
+
+  //обработчик нажатия лайков
+  initLikeHandlers(user, posts);
+
   // обработчик клика на имени пользователя
   for (let userEl of document.querySelectorAll(".post-header")) {
     userEl.addEventListener("click", () => {

@@ -67,3 +67,18 @@ export function uploadImage({ file }) {
     return response.json();
   });
 }
+
+// лайки
+export function toggleLike({ postId, token }) {
+  return fetch(`${postsHost}/${postId}/like`, {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  }).then(response => {
+    if (response.status === 401) {
+      throw new Error("Нет авторизации");
+    }
+    return response.json();
+  });
+}
