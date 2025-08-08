@@ -1,4 +1,4 @@
-const personalKey = "prod";
+const personalKey = "liza-karankevich";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
 
@@ -69,8 +69,10 @@ export function uploadImage({ file }) {
 }
 
 // лайки
-export function toggleLike({ postId, token }) {
-  return fetch(`${postsHost}/${postId}/like`, {
+export function toggleLike({ postId, token, isLiked }) {
+
+  const endpoint = isLiked ? 'dislike' : 'like';
+  return fetch(`${postsHost}/${postId}/${endpoint}`, {
     method: "POST",
     headers: {
       Authorization: token,
@@ -78,6 +80,27 @@ export function toggleLike({ postId, token }) {
   }).then(response => {
     if (response.status === 401) {
       throw new Error("Нет авторизации");
+    }
+    if (!response.ok) {
+      throw new Error("Ошибка сервера");
+    }
+    return response.json();
+  });
+}
+
+
+export function addPost({ description, imageUrl, token }) {
+  // const token = getToken();
+
+  return fetch(postsHost, {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+    body: JSON.stringify({ description, imageUrl }),
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error("Ошибка при добавлении поста");
     }
     return response.json();
   });

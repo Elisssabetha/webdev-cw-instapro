@@ -1,4 +1,5 @@
 import { loginUser, registerUser } from "../api.js";
+import { sanitizeInput } from "../helpers.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { renderUploadImageComponent } from "./upload-image-component.js";
 
@@ -125,8 +126,8 @@ export function renderAuthPageComponent({ appEl, setUser }) {
           });
       } else {
         // Обработка регистрации
-        const login = document.getElementById("login-input").value;
-        const name = document.getElementById("name-input").value;
+        const login = sanitizeInput(document.getElementById("login-input").value);
+        const name = sanitizeInput(document.getElementById("name-input").value);
         const password = document.getElementById("password-input").value;
 
         if (!name) {

@@ -3,7 +3,7 @@ import { ru } from '../node_modules/date-fns/locale/ru.js';
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { goToPage } from "../index.js";
-import { initLikeHandlers, renderLikeButton } from './like-handler-component.js';
+import { initLikeHandlers, renderLikeButton} from './like-handler-component.js';
 
 
 export function renderPostsPageComponent({ appEl, posts, user }) {
