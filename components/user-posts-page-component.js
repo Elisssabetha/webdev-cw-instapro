@@ -1,3 +1,4 @@
+import { sanitizeInput } from "../helpers.js";
 import { formatDistanceToNow } from "../node_modules/date-fns/formatDistanceToNow.js";
 import { ru } from "../node_modules/date-fns/locale/ru.js";
 import { renderHeaderComponent } from "./header-component.js";
@@ -34,8 +35,8 @@ export function renderUserPostsPageComponent({ appEl, posts, user }) {
         </p>
       </div>
       <p class="post-text">
-        <span class="user-name">${post.user.name}</span>
-        ${post.description}
+        <span class="user-name">${sanitizeInput(post.user.name)}</span>
+        ${sanitizeInput(post.description)}
       </p>
       <p class="post-date">
         ${formatDistanceToNow(new Date(post.createdAt), { locale: ru })} назад
@@ -50,7 +51,7 @@ export function renderUserPostsPageComponent({ appEl, posts, user }) {
       <div class="header-container"></div>
       <div class="posts-user-header">
         <img src="${posts[0].user.imageUrl}" class="posts-user-header__user-image">
-        <p class="posts-user-header__user-name">${posts[0].user.name}</p>
+        <p class="posts-user-header__user-name">${sanitizeInput(posts[0].user.name)}</p>
       </div>
       <ul class="posts">
         ${postsHtml}
